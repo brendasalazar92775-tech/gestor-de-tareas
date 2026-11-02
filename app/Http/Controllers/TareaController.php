@@ -40,20 +40,17 @@ class TareaController extends Controller
         return redirect()->route('tareas.index')->with('success', 'Tarea creada correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function completar(ListaPostRequest $request, string $id)
     {
-        //
-    }
+        $tarea = Tarea::findOrFail($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        $tarea->update(['completada' => $request->completada]);
+
+        return response()->json([
+            'success' => true,
+            'completada' => $tarea->completada
+        ]);
+
     }
 
     /**

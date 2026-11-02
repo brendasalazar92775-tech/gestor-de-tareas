@@ -15,6 +15,8 @@ Route::put('/tarea_actualizar/{id}', [TareaController::class, 'update'])->name('
 
 Route::delete('/eliminar_tarea/{id}', [TareaController::class, 'destroy'])->name('tarea.eliminar');
 
+Route::patch('/completar_tarea/{id}/completar', [TareaController::class, 'completar'])->name('tarea.completar');
+
 
 
 
