@@ -12,7 +12,11 @@ class TareaController extends Controller
     public function index()
     {
         $tareas = Tarea::all();
-        return view('index', compact('tareas'));
+        $total = Tarea::count();
+        $total_pendiente = Tarea::where('completada', 0)->count();
+        $total_completada = Tarea::where('completada', 1)->count();
+
+        return view('index', compact('tareas', 'total', 'total_completada', 'total_pendiente'));
     }
 
     public function vista_NuevaTarea()
@@ -40,11 +44,15 @@ class TareaController extends Controller
         return redirect()->route('tareas.index')->with('success', 'Tarea creada correctamente.');
     }
 
-    public function completar(ListaPostRequest $request, string $id)
+    public function completar(Request $request, string $id)
     {
+        $validate = $request->validate([
+            'completada' => 'required|boolean',
+        ]);
+
         $tarea = Tarea::findOrFail($id);
 
-        $tarea->update(['completada' => $request->completada]);
+        $tarea->update($validate);
 
         return response()->json([
             'success' => true,
@@ -52,6 +60,7 @@ class TareaController extends Controller
         ]);
 
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -72,7 +81,7 @@ class TareaController extends Controller
     {
         $tarea = Tarea::findOrFail($id);
 
-        if ($tarea->prioridad === 'Alta') {
+        if ($tarea->prioridad === 'Alta' && $tarea->completada === 0) {
             return redirect()->route('tareas.index')->with('error', 'No se puede eliminar una tarea con prioridad Alta.');
 
         }
