@@ -22,10 +22,10 @@
             </div>
         </div>
 
-        @if(session('error'))
-        <div style="color: red;">
-            {{ session('error') }}
-        </div>
+    @if(session('error'))
+    <div style="color: red;">
+        {{ session('error') }}
+    </div>
     @endif
     @if(session('success'))
         <div style="color: green;">
@@ -112,6 +112,16 @@
             </div>
             @endif
         @endforeach
+        @if ($total_pendiente == 0)
+                <div class="mt-3 p-3">
+                    <div class="row px-4" >
+                        <div class="d-flex col-9 justify-content-center flex-column">
+                            <p class="h5 text-muted">No hay tareas pendientes</p>
+                        </div>
+                    </div>  
+                </div>
+        
+        @endif
         <br>
         <div class="mb-3">
             <p class="h4 mb-3">Tareas Completadas</p>
@@ -157,7 +167,16 @@
             </div>
             @endif
         @endforeach
-        <div></div>
+        @if ($total_completada == 0)
+                <div class="mt-3 p-3">
+                    <div class="row px-4" >
+                        <div class="d-flex col-9 justify-content-center flex-column">
+                            <p class="h5 text-muted">No hay tareas completadas</p>
+                        </div>
+                    </div>  
+                </div>
+        
+        @endif
     </div>
 </body>
 </html>
